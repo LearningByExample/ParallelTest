@@ -1,6 +1,7 @@
 package org.learning.by.example;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.ForkJoinPool;
@@ -13,7 +14,7 @@ import java.util.stream.Stream;
 
 public class ParallelTestApp {
 
-    private final static Logger logger = Logger.getLogger(ParallelTestApp.class);
+    private final static Logger logger = LoggerFactory.getLogger(ParallelTestApp.class);
 
     private int numElements;
     private int numParallelTasks;

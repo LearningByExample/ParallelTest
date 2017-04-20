@@ -1,7 +1,8 @@
 package org.learning.by.example;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ParallelTestAppTest
 {
@@ -10,7 +11,7 @@ public class ParallelTestAppTest
     private final static int SMALL_NUM_ELEMENTS = 100;
     private final static int SMALL_NUM_PARALLEL_TASKS = 4;
 
-    private final static Logger logger = Logger.getLogger(ParallelTestApp.class);
+    private final static Logger logger = LoggerFactory.getLogger(ParallelTestApp.class);
 
     @Test
     public void bigElementsAndBigTasks(){
