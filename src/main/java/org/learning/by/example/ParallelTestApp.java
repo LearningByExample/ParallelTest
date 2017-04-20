@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -16,19 +15,20 @@ public class ParallelTestApp {
 
     private final static Logger logger = LoggerFactory.getLogger(ParallelTestApp.class);
 
-    private int numElements;
-    private int numParallelTasks;
+    int numElements;
+    int numParallelTasks;
 
 
     ParallelTestApp(int numElements, int numParallelTasks) {
         this.numElements = numElements;
         this.numParallelTasks = numParallelTasks;
+        sum.set(0);
 
         logger.info(getFieldAndValue(this.numElements));
         logger.info(getFieldAndValue(this.numParallelTasks));
     }
 
-    private static AtomicInteger sum = new AtomicInteger(0);
+    static AtomicInteger sum = new AtomicInteger(0);
 
     Consumer<Integer> notBlockingOperation = (item) -> {
         logger.debug(getFieldName(this.notBlockingOperation));
@@ -39,16 +39,15 @@ public class ParallelTestApp {
         logger.debug(getFieldName(this.blockingOperation));
     };
 
-    Function<Integer, IntStream> supplier = (numbers) -> IntStream.range(1, numbers);
-
-
-    BiConsumer<IntStream, Consumer<Integer>> parallelStream = (data, worker) -> {
-        ForkJoinPool pool = new ForkJoinPool(numParallelTasks);
-        pool.execute(() -> data.parallel().forEach(worker::accept));
-    };
+    Function<Integer, IntStream> supplier = (numbers) -> IntStream.range(0, numbers);
 
     BiConsumer<IntStream, Consumer<Integer>> sequentialStream = (data, worker) -> {
         data.forEach(worker::accept);
+    };
+
+    BiConsumer<IntStream, Consumer<Integer>> parallelStream = (data, worker) -> {
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", String.valueOf(numParallelTasks));
+        data.parallel().forEach(worker::accept);
     };
 
     BiConsumer<BiConsumer<IntStream, Consumer<Integer>>, Consumer<Integer>> perform = (processor, worker) -> {
@@ -68,7 +67,7 @@ public class ParallelTestApp {
         return "";
     }
 
-    private String getFieldAndValue(Object find) {
+    String getFieldAndValue(Object find) {
         return getFieldName(find) + "=" + find;
     }
 
