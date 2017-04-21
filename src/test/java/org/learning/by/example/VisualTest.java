@@ -1,12 +1,11 @@
 package org.learning.by.example;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by mail on 20/04/2017.
- */
+@Category(SlowTests.class)
 public class VisualTest {
     private final static int BIG_NUM_ELEMENTS = 10000000;
     private final static int BIG_NUM_PARALLEL_TASKS = 10000;
