@@ -92,7 +92,7 @@ public class ParallelTestApp {
 
     public static void main(String[] args) {
 
-        System.out.println("please run the test");
+        System.out.println("please run: mvnw test -P slowTests");
 
     }
 }

@@ -3,16 +3,16 @@
 ## info
 This is a small example for testing parallel stream and functional programming
 
-The example itself is run using test:
+The example itself could be run using:
 
 ```shell
-$ mvn test -P slowTests
+$ mvnw test -P slowTests
 ```
 To just run the normal unit test:
 ```shell
-$ mvn test
+$ mvnw test
 ```
 or
 ```shell
-$ mvn test -P fastTests
+$ mvnw test -P fastTests
 ```
